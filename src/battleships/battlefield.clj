@@ -19,3 +19,42 @@
       )
     )
   )
+
+
+(defrecord ShipTile [x y wounded? killed?])
+
+;Example of ships list [[[1 1] [1 2]] [3 3]]
+
+(defn render-ship [battle-map ship-size]
+  (loop [
+    tile (ShipTile. (rand-int (- map-size ship-size)) (rand-int map-size) false false)
+    count 0
+    res {}
+    ]
+    (if (< count ship-size)
+      (recur
+        (ShipTile. (inc (:x tile)) (:y tile) false false)
+        (inc count)
+        (assoc battle-map
+          (str (:x tile) "_" (:y tile))
+          tile
+          )
+        )
+      (assoc battle-map
+        (str (:x tile) "_" (:y tile))
+        tile
+        )
+      )
+    )
+  )
+
+(defn create-open-map []
+  (-> {}
+    (render-ship 3)
+    (render-ship 2)
+    (render-ship 2)
+    (render-ship 1)
+    (render-ship 1)
+    (render-ship 1)
+    )
+  )
