@@ -25,6 +25,10 @@
 
 ;Example of ships list [[[1 1] [1 2]] [3 3]]
 
+(defn get-ship [battle-map x y]
+  (get battle-map (str x "_" y))
+  )
+
 (defn render-ship [battle-map ship-size]
   (loop [
     tile (ShipTile. (rand-int (- map-size ship-size)) (rand-int map-size) false false)
@@ -56,5 +60,11 @@
     (render-ship 1)
     (render-ship 1)
     (render-ship 1)
+    )
+  )
+
+(defn fight-ship [battle-map x y]
+  (if-let [ship (get-ship battle-map x y)]
+    (assoc-in battle-map [(str x "_" y) :wounded?] true)
     )
   )
